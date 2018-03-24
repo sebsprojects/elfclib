@@ -1,6 +1,6 @@
 CC = gcc
 CC_FLAGS = -Wall -O3
-LN_FLAGS =
+LN_FLAGS = -lm
 
 INCLUDES = -I includes/
 

@@ -1,14 +1,16 @@
 #include "../include/elfc_common.h"
 #include "../include/elfc_vector.h"
+#include "../include/elfc_print.h"
 
+#include <stdio.h>
+#include <string.h>
 
 int main() {
-  Vector_i32 *v = vi32_alloc(4);
+  Vector_i32 *vec = vi32_allocN(4, 0, 1, -200, 3);
+  vi32_print(vec);
+  vi32_free(vec);
 
-  *vi32_at(v, 0) = 2;
-  *vi32_at(v, 1) = 4;
-  *vi32_at(v, 2) = 6;
-  *vi32_at(v, 3) = 8;
-
-  vi32_free(v);
+  Vector_f64 *fvec = vf64_allocN(4, 0.01, -0.003, 0.0, -0.4);
+  vf64_print(fvec);
+  vf64_free(fvec);
 }
