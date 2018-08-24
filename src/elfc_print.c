@@ -1,6 +1,8 @@
 #include "../include/elfc_print.h"
-#include "../include/elfc_vector.h"
 #include "../include/elfc_math.h"
+#include "../include/elfc_vecu16.h"
+#include "../include/elfc_veci32.h"
+#include "../include/elfc_vecf32.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -12,18 +14,18 @@
 // Vector printing
 // --------------------------------------------------------------------------
 
-void vi32_sprint(char *pstring, struct Vector_i32 *vector, uint32_t width) {
-  int32_t viMin = vi32_min(vector);
-  uint32_t maxAbs = i32_max(abs(vi32_max(vector)), abs(viMin));
-  uint32_t numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
-  uint32_t padTo = numDigits + (viMin < 0 ? 1 : 0);
-  uint32_t perLine = width / (padTo + 2); // account for ', '
+void veci32_sprint(char *pstring, Veci32 *vector, u32 width) {
+  i32 viMin = veci32_min(vector);
+  u32 maxAbs = i32_max(abs(veci32_max(vector)), abs(viMin));
+  u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
+  u32 padTo = numDigits + (viMin < 0 ? 1 : 0);
+  u32 perLine = width / (padTo + 2); // account for ', '
   char format[20]; format[0] = '\0';
   sprintf(format, "%s%u%s", "%", padTo, "i");
   sprintf(pstring, "vi32: len=%u\n", vector->size);
-  uint32_t i;
+  i32 i;
   for(i = 0; i < vector->size; i++) {
-    sprintf(pstring + strlen(pstring), format, *vi32_at(vector, i), padTo);
+    sprintf(pstring + strlen(pstring), format, *veci32_at(vector, i), padTo);
     if(i < vector->size - 1) {
       sprintf(pstring + strlen(pstring), ", ");
       if((i + 1) % perLine == 0) {
@@ -33,33 +35,31 @@ void vi32_sprint(char *pstring, struct Vector_i32 *vector, uint32_t width) {
   }
 }
 
-void vi32_print(struct Vector_i32 *vector) {
-  int32_t viMin = vi32_min(vector);
-  uint32_t maxAbs = i32_max(abs(vi32_max(vector)), abs(viMin));
-  uint32_t numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
-  uint32_t width = 80;
+void veci32_print(Veci32 *vector) {
+  i32 viMin = veci32_min(vector);
+  u32 maxAbs = i32_max(abs(veci32_max(vector)), abs(viMin));
+  u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
+  u32 width = 80;
   char *pstring = malloc(100 + (numDigits + 3) * vector->size);
-  vi32_sprint(pstring, vector, width);
+  veci32_sprint(pstring, vector, width);
   printf("%s\n", pstring);
   free(pstring);
 }
 
+// ---------------------------------------------------------------------------
 
-// --------------------------------------------------------------------------
-
-
-void f64_sprint(char *pstring, struct Vector_f64 *vector, uint32_t width) {
-  double viMin = vf64_min(vector);
-  uint32_t maxAbs = i32_max(abs(floor(vf64_max(vector))), abs(floor(viMin)));
-  uint32_t numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
-  uint32_t padTo = numDigits + 3 + (viMin < 0 ? 1 : 0); // account for '.xx'
-  uint32_t perLine = width / (padTo + 2); // account for ', '
+void vecu16_sprint(char *pstring, Vecu16 *vector, u32 width) {
+  u16 viMin = vecu16_min(vector);
+  u16 maxAbs = u16_max(abs(vecu16_max(vector)), abs(viMin));
+  u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
+  u32 padTo = numDigits + (viMin < 0 ? 1 : 0);
+  u32 perLine = width / (padTo + 2); // account for ', '
   char format[20]; format[0] = '\0';
-  sprintf(format, "%s%u%s", "%", padTo, ".2f");
-  sprintf(pstring, "f64: len=%u\n", vector->size);
-  uint32_t i;
+  sprintf(format, "%s%u%s", "%", padTo, "i");
+  sprintf(pstring, "vi32: len=%u\n", vector->size);
+  i32 i;
   for(i = 0; i < vector->size; i++) {
-    sprintf(pstring + strlen(pstring), format, *vf64_at(vector, i), padTo);
+    sprintf(pstring + strlen(pstring), format, *vecu16_at(vector, i), padTo);
     if(i < vector->size - 1) {
       sprintf(pstring + strlen(pstring), ", ");
       if((i + 1) % perLine == 0) {
@@ -69,13 +69,50 @@ void f64_sprint(char *pstring, struct Vector_f64 *vector, uint32_t width) {
   }
 }
 
-void vf64_print(struct Vector_f64 *vector) {
-  int32_t viMin = vf64_min(vector);
-  uint32_t maxAbs = i32_max(abs(vf64_max(vector)), abs(viMin));
-  uint32_t numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
-  uint32_t width = 80;
-  char *pstring = malloc(100 + (numDigits + 6) * vector->size);
-  f64_sprint(pstring, vector, width);
+void vecu16_print(Vecu16 *vector) {
+  u16 viMin = vecu16_min(vector);
+  u16 maxAbs = i32_max(abs(vecu16_max(vector)), abs(viMin));
+  u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
+  u32 width = 80;
+  char *pstring = malloc(100 + (numDigits + 3) * vector->size);
+  vecu16_sprint(pstring, vector, width);
   printf("%s\n", pstring);
   free(pstring);
 }
+
+// ---------------------------------------------------------------------------
+
+
+void vecf32_sprint(char *pstring, Vecf32 *vector, u32 width, u32 numDecimal) {
+  float viMin = vecf32_min(vector);
+  u32 maxAbs = i32_max(abs(floor(vecf32_max(vector))), abs(floor(viMin)));
+  u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
+  u32 padTo = numDigits + numDecimal + (viMin < 0 ? 1 : 0);
+  u32 perLine = width / (padTo + 2); // account for ', '
+  char format[20]; format[0] = '\0';
+  sprintf(format, "%s%u%s", "%", padTo, ".3f");
+  sprintf(pstring, "f32: len=%u\n", vector->size);
+  i32 i;
+  for(i = 0; i < vector->size; i++) {
+    sprintf(pstring + strlen(pstring), format, *vecf32_at(vector, i), padTo);
+    if(i < vector->size - 1) {
+      sprintf(pstring + strlen(pstring), ", ");
+      if((i + 1) % perLine == 0) {
+        sprintf(pstring + strlen(pstring), "\n");
+      }
+    }
+  }
+}
+
+void vecf32_print(Vecf32 *vector) {
+  i32 viMin = vecf32_min(vector);
+  u32 maxAbs = i32_max(abs(vecf32_max(vector)), abs(viMin));
+  u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
+  u32 width = 80;
+  u32 numDecimal = 3;
+  char *pstring = malloc(100 + (numDigits + numDecimal + 4) * vector->size);
+  vecf32_sprint(pstring, vector, width, numDecimal);
+  printf("%s\n", pstring);
+  free(pstring);
+}
+

@@ -1,18 +1,21 @@
 #ifndef ELFC_MATH
 #define ELFC_MATH
 
-#include <stdint.h>
+#include "elfc_common.h"
 
 
 // --------------------------------------------------------------------------
 // Basic math
 // --------------------------------------------------------------------------
 
-int32_t i32_max(int32_t a, int32_t b);
-int32_t i32_min(int32_t a, int32_t b);
+u16 u16_max(u16 a, u16 b);
+u16 u16_min(u16 a, u16 b);
 
-double f64_max(double a, double b);
-double f64_min(double a, double b);
+i32 i32_max(i32 a, i32 b);
+i32 i32_min(i32 a, i32 b);
+
+f32 f32_max(f32 a, f32 b);
+f32 f32_min(f32 a, f32 b);
 
 
 // --------------------------------------------------------------------------
@@ -20,13 +23,17 @@ double f64_min(double a, double b);
 // --------------------------------------------------------------------------
 
 // TODO: returns INT_MIN / INT_MAX if size is 0
-struct Vector_i32;
-int32_t vi32_max(struct Vector_i32 *vector);
-int32_t vi32_min(struct Vector_i32 *vector);
+struct Vecu16;
+u16 vecu16_max(struct Vecu16 *vector);
+u16 vecu16_min(struct Vecu16 *vector);
 
-struct Vector_f64;
-double vf64_max(struct Vector_f64 *vector);
-double vf64_min(struct Vector_f64 *vector);
+struct Veci32;
+i32 veci32_max(struct Veci32 *vector);
+i32 veci32_min(struct Veci32 *vector);
+
+struct Vecf32;
+f32 vecf32_max(struct Vecf32 *vector);
+f32 vecf32_min(struct Vecf32 *vector);
 
 
 #endif
