@@ -2,17 +2,24 @@ CC = gcc
 CC_FLAGS = -Wall -O3
 LN_FLAGS = -lm
 
+# Testing
+ifneq "$(findstring test, $(MAKECMDGOALS))" ""
+CC_FLAGS = -Wall -O3 -DBOUNDS_CHECK
+LN_FLAGS = -lm
+SRC_FILES = $(wildcard test/test.c)
+endif
+
 INCLUDES = -I includes/
 
-SRC_FILES = $(wildcard src/*.c) $(wildcard test/*.c)
+SRC_FILES += $(wildcard src/*.c)
 OBJ_FILES = $(addprefix bin/,$(notdir $(SRC_FILES:.c=.o)))
 DEP_FILES = $(OBJ_FILES:.o=.d)
 
-BIN = ./bin/test
+TEST = ./bin/test
 
-all: $(BIN)
+test: $(TEST)
 
-$(BIN): $(OBJ_FILES)
+$(TEST): $(OBJ_FILES)
 	$(CC) $(LN_FLAGS) $^ -o $@
 -include $(DEP_FILES)
 

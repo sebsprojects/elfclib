@@ -1,7 +1,6 @@
 #include "../include/elfc_vecptr.h"
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <stdarg.h>
 
 
@@ -29,9 +28,7 @@ void vecptr_free(Vecptr *vector){
 
 void **vecptr_at(Vecptr *vector, u32 index) {
   if(index >= vector->size) {
-    fprintf(stderr, "fatal: vecptr_at access at index=%u whereas size=%u",
-            index, vector->size);
-    exit(1);
+    boundsErrorAndExit("vecptr_at", vector->size, index);
   }
   return &vector->data[index];
 }

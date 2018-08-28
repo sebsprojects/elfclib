@@ -33,4 +33,12 @@ i32 *veci32_at(Veci32 *vector, u32 index);
 bool veci32_indexOf(Veci32 *vector, i32 value, u32 offset, u32 *index);
 
 
+// --------------------------------------------------------------------------
+// Operation
+// --------------------------------------------------------------------------
+
+i32 veci32_max(Veci32 *vector);
+i32 veci32_min(Veci32 *vector);
+
+
 #endif

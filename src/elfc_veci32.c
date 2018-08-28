@@ -1,7 +1,7 @@
 #include "../include/elfc_veci32.h"
+#include "../include/elfc_math.h"
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <stdarg.h>
 
 
@@ -41,9 +41,7 @@ void veci32_free(Veci32 *vector) {
 
 i32 *veci32_at(Veci32 *vector, u32 index) {
   if(index >= vector->size) {
-    fprintf(stderr, "fatal: veci32_at access at index=%u whereas size=%u",
-            index, vector->size);
-    exit(1);
+    boundsErrorAndExit("veci32_at", vector->size, index);
   }
   return &vector->data[index];
 }
@@ -57,4 +55,33 @@ bool veci32_indexOf(Veci32 *vector, i32 value, u32 offset, u32 *index) {
     }
   }
   return 0;
+}
+
+
+// --------------------------------------------------------------------------
+// Operation
+// --------------------------------------------------------------------------
+
+i32 veci32_max(Veci32 *vector) {
+  if(vector->size == 0) {
+    errorAndExit("veci32_max: No elements");
+  }
+  i32 i;
+  i32 max = I32_MIN;
+  for(i = 0; i < vector->size; i++) {
+    max = i32_max(max, *veci32_at(vector, i));
+  }
+  return max;
+}
+
+i32 veci32_min(Veci32 *vector) {
+  if(vector->size == 0) {
+    errorAndExit("veci32_min: No elements");
+  }
+  i32 i;
+  i32 min = I32_MAX;
+  for(i = 0; i < vector->size; i++) {
+    min = i32_min(min, *veci32_at(vector, i));
+  }
+  return min;
 }

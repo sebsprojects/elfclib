@@ -14,11 +14,15 @@
 
 typedef int32_t bool;
 
+typedef int16_t i16;
 typedef int32_t i32;
 
 typedef uint16_t u16;
 typedef uint32_t u32;
 
 typedef float f32;
+
+void errorAndExit(char *message);
+void boundsErrorAndExit(char *message, u32 bound, u32 index);
 
 #endif

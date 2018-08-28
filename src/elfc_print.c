@@ -56,7 +56,7 @@ void vecu16_sprint(char *pstring, Vecu16 *vector, u32 width) {
   u32 perLine = width / (padTo + 2); // account for ', '
   char format[20]; format[0] = '\0';
   sprintf(format, "%s%u%s", "%", padTo, "i");
-  sprintf(pstring, "vi32: len=%u\n", vector->size);
+  sprintf(pstring, "vu16: len=%u\n", vector->size);
   i32 i;
   for(i = 0; i < vector->size; i++) {
     sprintf(pstring + strlen(pstring), format, *vecu16_at(vector, i), padTo);
