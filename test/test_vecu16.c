@@ -76,27 +76,73 @@ bool test_copyInto() {
 }
 
 bool test_sort() {
-
+  Vecu16 *vec = vecu16_allocN(6, 6, 5, 3, 2, 4, 1);
+  vecu16_sort(vec, 2, 4);
+  bool ok = 1;
+  ok = ok && *vecu16_at(vec, 0) == 6;
+  ok = ok && *vecu16_at(vec, 1) == 5;
+  ok = ok && *vecu16_at(vec, 2) == 2;
+  ok = ok && *vecu16_at(vec, 3) == 3;
+  ok = ok && *vecu16_at(vec, 4) == 4;
+  ok = ok && *vecu16_at(vec, 5) == 1;
+  vecu16_free(vec);
+  return ok;
 }
 
 bool test_areEqualVectors() {
-
+  Vecu16 *vec = vecu16_allocN(5, 1, 2, 3, 4, 5);
+  Vecu16 *copy = vecu16_copy(vec);
+  bool ok = 1;
+  // test basic case
+  ok = ok && vecu16_areEqualVectors(vec, copy);
+  // test that only up to size matters
+  *vecu16_at(copy, 4) = 0;
+  vecu16_resize(vec, 4);
+  vecu16_resize(copy, 4);
+  ok = ok && vecu16_areEqualVectors(vec, copy);
+  // test order matters
+  *vecu16_at(copy, 0) = 1;
+  *vecu16_at(copy, 1) = 0;
+  ok = ok && !vecu16_areEqualVectors(vec, copy);
+  vecu16_free(copy);
+  vecu16_free(vec);
+  return ok;
 }
 
 bool test_haveEqualContent() {
-
+  Vecu16 *a = vecu16_allocN(4, 1, 2, 3, 1);
+  Vecu16 *b = vecu16_allocN(4, 2, 3, 1, 1);
+  Vecu16 *c = vecu16_allocN(4, 2, 1, 2, 3);
+  bool ok = 1;
+  ok = ok && vecu16_haveEqualContent(a, b);
+  ok = ok && !vecu16_haveEqualContent(a, c);
+  vecu16_free(c);
+  vecu16_free(b);
+  vecu16_free(a);
+  return ok;
 }
 
 bool test_hasDuplicates() {
-
+  Vecu16 *a = vecu16_allocN(5, 1, 2, 3, 3, 4);
+  Vecu16 *b = vecu16_allocN(5, 1, 2, 3, 4, 5);
+  bool ok = 1;
+  ok = ok && vecu16_hasDuplicates(a);
+  ok = ok && !vecu16_hasDuplicates(b);
+  vecu16_free(b);
+  vecu16_free(a);
+  return ok;
 }
 
 void test_vecu16() {
-  printTestHeader("vecu_16");
+  printTestHeader("vecu16");
   printTestMessage(test_fill(), "vecu16_fill");
   printTestMessage(test_setToRange(), "vecu16_setToRange");
   printTestMessage(test_resize(), "vecu16_resize");
   printTestMessage(test_copy(), "vecu16_copy");
   printTestMessage(test_copyInto(), "vecu16_copyInto");
+  printTestMessage(test_sort(), "vecu16_copySort");
+  printTestMessage(test_areEqualVectors(), "vecu16_areEqualVectors");
+  printTestMessage(test_haveEqualContent(), "vecu16_haveEqualContent");
+  printTestMessage(test_hasDuplicates(), "vecu16_hasDuplicates");
   printTestFooter();
 }

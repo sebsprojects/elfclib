@@ -10,6 +10,9 @@
 // --------------------------------------------------------------------------
 
 Vecu16 *vecu16_alloc(u32 size) {
+  if(size == 0) {
+    boundsErrorAndExit("vecu16_alloc", 1, size);
+  }
   Vecu16 *vector = malloc(sizeof(Vecu16));
   vector->allocSize = size;
   vector->size = size;
@@ -18,6 +21,9 @@ Vecu16 *vecu16_alloc(u32 size) {
 }
 
 Vecu16 *vecu16_allocN(u32 n, ...) {
+  if(n == 0) {
+    boundsErrorAndExit("vecu16_allocN", 1, n);
+  }
   Vecu16 *vector = vecu16_alloc(n);
   va_list args;
   va_start(args, n);
@@ -125,8 +131,14 @@ bool vecu16_areEqualVectors(Vecu16 *a, Vecu16 *b) {
 }
 
 bool vecu16_haveEqualContent(Vecu16 *a, Vecu16 *b) {
-  errorAndExit("vecu16_haveEqualContent not implemented yet");
-  return 0;
+  Vecu16 *ac = vecu16_copy(a);
+  Vecu16 *bc = vecu16_copy(b);
+  vecu16_sort(ac, 0, ac->size - 1);
+  vecu16_sort(bc, 0, bc->size - 1);
+  bool equal = vecu16_areEqualVectors(ac, bc);
+  vecu16_free(bc);
+  vecu16_free(ac);
+  return equal;
 }
 
 bool vecu16_hasDuplicates(Vecu16 *vector) {

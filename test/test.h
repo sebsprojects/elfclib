@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 inline void printTestHeader(char *name) {
-  printf("Testing %s ...\n", name);
+  printf("\nTesting %s ...\n", name);
 }
 
 inline void printTestFooter() {

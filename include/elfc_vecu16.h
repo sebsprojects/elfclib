@@ -49,9 +49,13 @@ void vecu16_copyInto(Vecu16 *to, Vecu16 *from);
 // Sorts between [start, end] using stdlib qsort
 void vecu16_sort(Vecu16 *vector, u32 start, u32 end);
 
+// Tests if two vectors are equal up to size. allocSize has no impact on that
 bool vecu16_areEqualVectors(Vecu16 *a, Vecu16 *b);
+
+// Tests if two vectors are equal but disregards order
 bool vecu16_haveEqualContent(Vecu16 *a, Vecu16 *b);
 
+// Tests if the vector has duplicates
 bool vecu16_hasDuplicates(Vecu16 *vector);
 
 u16 vecu16_max(Vecu16 *vector);

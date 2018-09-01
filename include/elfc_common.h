@@ -21,6 +21,7 @@ typedef uint16_t u16;
 typedef uint32_t u32;
 
 typedef float f32;
+typedef double f64;
 
 void errorAndExit(char *message);
 void boundsErrorAndExit(char *message, u32 bound, u32 index);
