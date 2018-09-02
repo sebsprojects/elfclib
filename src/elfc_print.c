@@ -50,7 +50,7 @@ void veci32_print(Veci32 *vector) {
 
 void vecu16_sprint(char *pstring, Vecu16 *vector, u32 width) {
   u16 viMin = vecu16_min(vector);
-  u16 maxAbs = u16_max(abs(vecu16_max(vector)), abs(viMin));
+  u16 maxAbs = u16_max(vecu16_max(vector), viMin);
   u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
   u32 padTo = numDigits + (viMin < 0 ? 1 : 0);
   u32 perLine = width / (padTo + 2); // account for ', '
@@ -71,7 +71,7 @@ void vecu16_sprint(char *pstring, Vecu16 *vector, u32 width) {
 
 void vecu16_print(Vecu16 *vector) {
   u16 viMin = vecu16_min(vector);
-  u16 maxAbs = i32_max(abs(vecu16_max(vector)), abs(viMin));
+  u16 maxAbs = i32_max(vecu16_max(vector), viMin);
   u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
   u32 width = 80;
   char *pstring = malloc(100 + (numDigits + 3) * vector->size);
@@ -84,10 +84,11 @@ void vecu16_print(Vecu16 *vector) {
 
 
 void vecf32_sprint(char *pstring, Vecf32 *vector, u32 width, u32 numDecimal) {
-  float viMin = vecf32_min(vector);
-  u32 maxAbs = i32_max(abs(floor(vecf32_max(vector))), abs(floor(viMin)));
+  i32 absViMin = (i32) fabs(vecf32_min(vector));
+  i32 absViMax = (i32) fabs(vecf32_max(vector));
+  i32 maxAbs = i32_max(absViMin, absViMax);
   u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
-  u32 padTo = numDigits + numDecimal + (viMin < 0 ? 1 : 0);
+  u32 padTo = numDigits + numDecimal + (vecf32_min(vector) < 0 ? 1 : 0);
   u32 perLine = width / (padTo + 2); // account for ', '
   char format[20]; format[0] = '\0';
   sprintf(format, "%s%u%s", "%", padTo, ".3f");
@@ -105,8 +106,9 @@ void vecf32_sprint(char *pstring, Vecf32 *vector, u32 width, u32 numDecimal) {
 }
 
 void vecf32_print(Vecf32 *vector) {
-  i32 viMin = vecf32_min(vector);
-  u32 maxAbs = i32_max(abs(vecf32_max(vector)), abs(viMin));
+  i32 absViMin = (i32) fabs(vecf32_min(vector));
+  i32 absViMax = (i32) fabs(vecf32_max(vector));
+  i32 maxAbs = i32_max(absViMin, absViMax);
   u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
   u32 width = 80;
   u32 numDecimal = 3;
