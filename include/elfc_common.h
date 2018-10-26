@@ -23,7 +23,13 @@ typedef uint32_t u32;
 typedef float f32;
 typedef double f64;
 
+
 void errorAndExit(char *message);
 void boundsErrorAndExit(char *message, u32 bound, u32 index);
+
+inline u32 get2DIndex(u32 width, u32 w, u32 h) {
+  return width * h + w;
+}
+
 
 #endif

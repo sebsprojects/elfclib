@@ -27,8 +27,10 @@ void vecptr_free(Vecptr *vector){
 // --------------------------------------------------------------------------
 
 void **vecptr_at(Vecptr *vector, u32 index) {
+#ifdef BOUNDS_CHECK
   if(index >= vector->size) {
     boundsErrorAndExit("vecptr_at", vector->size, index);
   }
+#endif
   return &vector->data[index];
 }

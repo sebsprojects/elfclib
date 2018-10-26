@@ -41,4 +41,11 @@ i32 veci32_max(Veci32 *vector);
 i32 veci32_min(Veci32 *vector);
 
 
+// --------------------------------------------------------------------------
+// Print
+// --------------------------------------------------------------------------
+
+void veci32_sprint(char *pstring, Veci32 *vector, u32 width);
+void veci32_print(Veci32 *vector);
+
 #endif

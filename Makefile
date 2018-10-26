@@ -1,8 +1,10 @@
+CC_FLAGS = -Wall
+LN_FLAGS = -lm
+
 # Testing
 ifneq "$(findstring test, $(MAKECMDGOALS))" ""
 CC = gcc
-CC_FLAGS = -Wall -O3 -MMD
-LN_FLAGS = -lm
+CC_FLAGS += -O3 -MMD
 SRC_FILES = $(wildcard test/test.c)
 OBJ_EXTENSION = o
 endif
@@ -10,15 +12,19 @@ endif
 # Native Lib
 ifneq "$(findstring libnative, $(MAKECMDGOALS))" ""
 CC = gcc
-CC_FLAGS = -Wall -O3 -MMD
+CC_FLAGS += -O3 -MMD -std=c99
 OBJ_EXTENSION = o
 endif
 
 # emscripten
 ifneq "$(findstring libjs, $(MAKECMDGOALS))" ""
 CC = emcc
-CC_FLAGS = -Wall -O2
+CC_FLAGS += -O2
 OBJ_EXTENSION = bc
+endif
+
+ifeq ($(BOUNDS_CHECK), 1)
+CC_FLAGS += -DBOUNDS_CHECK
 endif
 
 # -----------------------------------------------------------------------------

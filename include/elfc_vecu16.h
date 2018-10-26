@@ -29,8 +29,7 @@ void vecu16_free(Vecu16 *vector);
 // Operation
 // --------------------------------------------------------------------------
 
-u16 *vecu16_at(Vecu16 *vector, u32 index);
-bool vecu16_indexOf(Vecu16 *vector, u16 value, u32 offset, u32 *index);
+bool vecu16_indexOf(Vecu16 *vector, u16 value, u32 *index, u32 offset);
 
 void vecu16_fill(Vecu16 *vector, u16 val);
 
@@ -49,18 +48,48 @@ void vecu16_copyInto(Vecu16 *to, Vecu16 *from);
 // Sorts between [start, end] using stdlib qsort
 void vecu16_sort(Vecu16 *vector, u32 start, u32 end);
 
-// Tests if two vectors are equal up to size. allocSize has no impact on that
+// Tests if two vectors are equal but disregards order
+// Duplactes have impact
+bool vecu16_haveEqualContent(Vecu16 *a, Vecu16 *b);
+
+// Tests if two vectors are equal up to size. allocSize has no impact
+// Duplicates have impact. Order has impact
 bool vecu16_areEqualVectors(Vecu16 *a, Vecu16 *b);
 
-// Tests if two vectors are equal but disregards order
-bool vecu16_haveEqualContent(Vecu16 *a, Vecu16 *b);
+// Test if two vectors are equal as sets up to size. allocSize has no impact
+// Duplicates have no impact. Vector is treated as a mathematical set
+bool vecu16_areEqualSets(Vecu16 *a, Vecu16 *b);
 
 // Tests if the vector has duplicates
 bool vecu16_hasDuplicates(Vecu16 *vector);
 
+// Tests if set contains sub
+bool vecu16_isSubset(Vecu16 *sub, Vecu16 *set);
+
 u16 vecu16_max(Vecu16 *vector);
 u16 vecu16_min(Vecu16 *vector);
 
+
+// --------------------------------------------------------------------------
+// Print
+// --------------------------------------------------------------------------
+
+void vecu16_sprint(char *pstring, Vecu16 *vector, u32 width);
+void vecu16_print(Vecu16 *vector);
+
+
+// --------------------------------------------------------------------------
+// Inline
+// --------------------------------------------------------------------------
+
+inline u16 *vecu16_at(Vecu16 *vector, u32 index) {
+#ifdef BOUNDS_CHECK
+  if(index >= vector->size) {
+    boundsErrorAndExit("vecu16_at", vector->size, index);
+  }
+#endif
+  return &vector->data[index];
+}
 
 
 #endif

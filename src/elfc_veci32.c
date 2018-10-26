@@ -3,6 +3,9 @@
 
 #include <stdlib.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
 
 
 // --------------------------------------------------------------------------
@@ -84,4 +87,41 @@ i32 veci32_min(Veci32 *vector) {
     min = i32_min(min, *veci32_at(vector, i));
   }
   return min;
+}
+
+
+// --------------------------------------------------------------------------
+// Print
+// --------------------------------------------------------------------------
+
+void veci32_sprint(char *pstring, Veci32 *vector, u32 width) {
+  i32 viMin = veci32_min(vector);
+  u32 maxAbs = i32_max(abs(veci32_max(vector)), abs(viMin));
+  u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
+  u32 padTo = numDigits + (viMin < 0 ? 1 : 0);
+  u32 perLine = width / (padTo + 2); // account for ', '
+  char format[20]; format[0] = '\0';
+  sprintf(format, "%s%u%s", "%", padTo, "i");
+  sprintf(pstring, "vi32: len=%u\n", vector->size);
+  i32 i;
+  for(i = 0; i < vector->size; i++) {
+    sprintf(pstring + strlen(pstring), format, *veci32_at(vector, i), padTo);
+    if(i < vector->size - 1) {
+      sprintf(pstring + strlen(pstring), ", ");
+      if((i + 1) % perLine == 0) {
+        sprintf(pstring + strlen(pstring), "\n");
+      }
+    }
+  }
+}
+
+void veci32_print(Veci32 *vector) {
+  i32 viMin = veci32_min(vector);
+  u32 maxAbs = i32_max(abs(veci32_max(vector)), abs(viMin));
+  u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
+  u32 width = 80;
+  char *pstring = malloc(100 + (numDigits + 3) * vector->size);
+  veci32_sprint(pstring, vector, width);
+  printf("%s\n", pstring);
+  free(pstring);
 }

@@ -2,7 +2,20 @@
 
 #include "../include/elfc_common.h"
 #include "../include/elfc_vecu16.h"
-#include "../include/elfc_print.h"
+
+bool test_indexOf() {
+  bool ok = 1;
+  Vecu16 *vec = vecu16_allocN(5, 0, 1, 2, 4, 3);
+  u32 ind;
+  ok = ok && vecu16_indexOf(vec, 1, &ind, 0);
+  ok = ok && ind == 1;
+  ok = ok && !vecu16_indexOf(vec, 1, &ind, 2);
+  ind = 3;
+  ok = ok && vecu16_indexOf(vec, (u16) ind, &ind, 0);
+  ok = ok && ind == 4;
+  vecu16_free(vec);
+  return ok;
+}
 
 bool test_fill() {
   Vecu16 *vec = vecu16_alloc(5);
@@ -116,6 +129,10 @@ bool test_haveEqualContent() {
   bool ok = 1;
   ok = ok && vecu16_haveEqualContent(a, b);
   ok = ok && !vecu16_haveEqualContent(a, c);
+  vecu16_resize(c, 3);
+  // test that duplicates matter
+  *vecu16_at(c, 2) = 3;
+  ok = ok && !vecu16_haveEqualContent(a, c);
   vecu16_free(c);
   vecu16_free(b);
   vecu16_free(a);
@@ -133,8 +150,43 @@ bool test_hasDuplicates() {
   return ok;
 }
 
+bool test_isSubset() {
+  Vecu16 *a = vecu16_allocN(5, 1, 2, 3, 4, 5);
+  Vecu16 *b = vecu16_allocN(3, 2, 1, 3);
+  bool ok = 1;
+  // test basic case
+  ok = ok && vecu16_isSubset(b, a);
+  // test that duplicates does not matter
+  *vecu16_at(b, 0) = 1; // 1 1 3
+  ok = ok && vecu16_isSubset(b, a);
+  // test basic negative case
+  *vecu16_at(b, 0) = 6; // 6 1 3
+  ok = ok && !vecu16_isSubset(b, a);
+  // test that size does not matter
+  *vecu16_at(b, 0) = 2; // 2 1 3
+  *vecu16_at(a, 3) = 1;
+  *vecu16_at(a, 4) = 1; // 1 2 3 1 1
+  ok = ok && vecu16_isSubset(a, b);
+  vecu16_free(a);
+  vecu16_free(b);
+  return ok;
+}
+
+bool test_areEqualSets() {
+  Vecu16 *a = vecu16_allocN(5, 1, 2, 2, 3, 4);
+  Vecu16 *b = vecu16_allocN(4, 1, 2, 3, 4);
+  bool ok = 1;
+  ok = ok && vecu16_areEqualSets(a, b);
+  *vecu16_at(b, 3) = 3;
+  ok = ok && !vecu16_areEqualSets(a, b);
+  vecu16_free(a);
+  vecu16_free(b);
+  return ok;
+}
+
 void test_vecu16() {
   printTestHeader("vecu16");
+  printTestMessage(test_indexOf(), "vecu16_indexOf");
   printTestMessage(test_fill(), "vecu16_fill");
   printTestMessage(test_setToRange(), "vecu16_setToRange");
   printTestMessage(test_resize(), "vecu16_resize");
@@ -144,5 +196,7 @@ void test_vecu16() {
   printTestMessage(test_areEqualVectors(), "vecu16_areEqualVectors");
   printTestMessage(test_haveEqualContent(), "vecu16_haveEqualContent");
   printTestMessage(test_hasDuplicates(), "vecu16_hasDuplicates");
+  printTestMessage(test_isSubset(), "vecu16_isSubset");
+  printTestMessage(test_areEqualSets(), "vecu16_areEqualSets");
   printTestFooter();
 }

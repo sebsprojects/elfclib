@@ -8,14 +8,30 @@
 // Basic math
 // --------------------------------------------------------------------------
 
-u16 u16_max(u16 a, u16 b);
-u16 u16_min(u16 a, u16 b);
 
-i32 i32_max(i32 a, i32 b);
-i32 i32_min(i32 a, i32 b);
+inline u16 u16_max(u16 a, u16 b) {
+  return a < b ? b : a;
+}
 
-f32 f32_max(f32 a, f32 b);
-f32 f32_min(f32 a, f32 b);
+inline u16 u16_min(u16 a, u16 b) {
+  return a < b ? a : b;
+}
+
+inline i32 i32_max(i32 a, i32 b) {
+  return a < b ? b : a;
+}
+
+inline i32 i32_min(i32 a, i32 b) {
+  return a < b ? a : b;
+}
+
+inline f32 f32_max(f32 a, f32 b) {
+  return a < b ? b : a;
+}
+
+inline f32 f32_min(f32 a, f32 b) {
+  return a < b ? a : b;
+}
 
 
 #endif
