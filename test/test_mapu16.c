@@ -1,5 +1,4 @@
-#include "test.h"
-
+#include "../include/elfc_test.h"
 #include "../include/elfc_mapu16.h"
 
 

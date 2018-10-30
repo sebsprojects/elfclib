@@ -1,9 +1,9 @@
-#include "test.h"
-
+#include "../include/elfc_test.h"
 #include "../include/elfc_common.h"
 #include "../include/elfc_vecu16.h"
 
-bool test_indexOf() {
+bool test_indexOf()
+{
   bool ok = 1;
   Vecu16 *vec = vecu16_allocN(5, 0, 1, 2, 4, 3);
   u32 ind;
@@ -17,11 +17,12 @@ bool test_indexOf() {
   return ok;
 }
 
-bool test_fill() {
+bool test_fill()
+{
   Vecu16 *vec = vecu16_alloc(5);
   vecu16_fill(vec, 42);
   bool ok = 1;
-  i32 i; for(i = 0; i < vec->size; i++) {
+  for(i32 i = 0; i < vec->size; i++) {
     ok = ok && *vecu16_at(vec, i) == 42;
   }
   //vecu16_print(vec);
@@ -29,7 +30,8 @@ bool test_fill() {
   return ok;
 }
 
-bool test_setToRange() {
+bool test_setToRange()
+{
   Vecu16 *vec = vecu16_allocN(7, 0, 0, 0, 0, 0, 0, 0);
   vecu16_setToRange(vec, 2, 5, 2);
   bool ok = 1;
@@ -37,7 +39,7 @@ bool test_setToRange() {
   ok = ok && *vecu16_at(vec, 1) == 0;
   ok = ok && *vecu16_at(vec, 5) == 0;
   ok = ok && *vecu16_at(vec, 6) == 0;
-  i32 i; for(i = 2; i < 5; i++) {
+  for(i32 i = 2; i < 5; i++) {
     ok = ok && *vecu16_at(vec, i) == i;
   }
   //vecu16_print(vec);
@@ -45,7 +47,8 @@ bool test_setToRange() {
   return ok;
 }
 
-bool test_resize() {
+bool test_resize()
+{
   Vecu16 *vec = vecu16_alloc(10);
   vecu16_fill(vec, 0);
   bool ok = 1;
@@ -58,14 +61,15 @@ bool test_resize() {
   return ok;
 }
 
-bool test_copy() {
+bool test_copy()
+{
   Vecu16 *vec = vecu16_allocN(4, 1, 2, 3, 4);
   vecu16_resize(vec, 2);
   Vecu16 *copy = vecu16_copy(vec);
   bool ok = 1;
   ok = ok && copy->size == 2;
   ok = ok && copy->allocSize == 4;
-  i32 i; for(i = 0; i < vec->allocSize; i++) {
+  for(i32 i = 0; i < vec->allocSize; i++) {
     ok = ok && vec->data[i] == copy->data[i];
   }
   vecu16_free(copy);
@@ -73,13 +77,14 @@ bool test_copy() {
   return ok;
 }
 
-bool test_copyInto() {
+bool test_copyInto()
+{
   Vecu16 *vec = vecu16_allocN(4, 1, 2, 3, 4);
   Vecu16 *copy = vecu16_allocN(4, 0, 0, 0, 0);
   vecu16_resize(vec, 3);
   vecu16_copyInto(copy, vec);
   bool ok = 1;
-  i32 i; for(i = 0; i < vec->size; i++) {
+  for(i32 i = 0; i < vec->size; i++) {
     ok = ok && *vecu16_at(vec, i) == *vecu16_at(copy, i);
   }
   ok = ok && *vecu16_at(copy, 3) == 0;
@@ -88,7 +93,8 @@ bool test_copyInto() {
   return ok;
 }
 
-bool test_sort() {
+bool test_sort()
+{
   Vecu16 *vec = vecu16_allocN(6, 6, 5, 3, 2, 4, 1);
   vecu16_sort(vec, 2, 4);
   bool ok = 1;
@@ -102,7 +108,8 @@ bool test_sort() {
   return ok;
 }
 
-bool test_areEqualVectors() {
+bool test_areEqualVectors()
+{
   Vecu16 *vec = vecu16_allocN(5, 1, 2, 3, 4, 5);
   Vecu16 *copy = vecu16_copy(vec);
   bool ok = 1;
@@ -122,7 +129,8 @@ bool test_areEqualVectors() {
   return ok;
 }
 
-bool test_haveEqualContent() {
+bool test_haveEqualContent()
+{
   Vecu16 *a = vecu16_allocN(4, 1, 2, 3, 1);
   Vecu16 *b = vecu16_allocN(4, 2, 3, 1, 1);
   Vecu16 *c = vecu16_allocN(4, 2, 1, 2, 3);
@@ -139,7 +147,8 @@ bool test_haveEqualContent() {
   return ok;
 }
 
-bool test_hasDuplicates() {
+bool test_hasDuplicates()
+{
   Vecu16 *a = vecu16_allocN(5, 1, 2, 3, 3, 4);
   Vecu16 *b = vecu16_allocN(5, 1, 2, 3, 4, 5);
   bool ok = 1;
@@ -150,7 +159,8 @@ bool test_hasDuplicates() {
   return ok;
 }
 
-bool test_isSubset() {
+bool test_isSubset()
+{
   Vecu16 *a = vecu16_allocN(5, 1, 2, 3, 4, 5);
   Vecu16 *b = vecu16_allocN(3, 2, 1, 3);
   bool ok = 1;
@@ -172,7 +182,8 @@ bool test_isSubset() {
   return ok;
 }
 
-bool test_areEqualSets() {
+bool test_areEqualSets()
+{
   Vecu16 *a = vecu16_allocN(5, 1, 2, 2, 3, 4);
   Vecu16 *b = vecu16_allocN(4, 1, 2, 3, 4);
   bool ok = 1;
@@ -184,7 +195,8 @@ bool test_areEqualSets() {
   return ok;
 }
 
-void test_vecu16() {
+void test_vecu16()
+{
   printTestHeader("vecu16");
   printTestMessage(test_indexOf(), "vecu16_indexOf");
   printTestMessage(test_fill(), "vecu16_fill");

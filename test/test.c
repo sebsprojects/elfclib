@@ -2,7 +2,8 @@
 #include "test_mapu16.c"
 
 
-int main() {
+int main()
+{
   test_vecu16();
   test_mapu16();
   return 0;

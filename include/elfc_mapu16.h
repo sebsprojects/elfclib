@@ -5,9 +5,9 @@
 #include "elfc_vecu16.h"
 
 
-// --------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 // Types
-// --------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 struct Mapu16 {
   bool indexed;
@@ -17,9 +17,9 @@ struct Mapu16 {
 typedef struct Mapu16 Mapu16;
 
 
-// --------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 // Alloc / Free
-// --------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 /*
  * Note that the domain and codomain are uninitialized and accessing them
@@ -35,9 +35,9 @@ void mapu16_free(Mapu16 *map);
 void mapu16_free_ref(Mapu16 *map);
 
 
-// --------------------------------------------------------------------------
-// MapU
-// --------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// Operation
+// ---------------------------------------------------------------------------
 
 /*
  * Sets domain and codomain to [0..map->domain->size)
@@ -65,9 +65,9 @@ bool mapu16_isSurjectiveIn(Mapu16 *map, Vecu16 *set);
 bool mapu16_isInjective(Mapu16 *map);
 
 /*
-  g->domain->size must be equal to comp->domain->size to get a valid map
-  If setDomain == 0, then comp->domain will be left untouched
-*/
+ * g->domain->size must be equal to comp->domain->size to get a valid map
+ * If setDomain == 0, then comp->domain will be left untouched
+ */
 void mapu16_comp_noalloc(Mapu16 *f, Mapu16 *g, Mapu16 *comp, bool setDomain);
 Mapu16 *mapu16_comp_alloc(Mapu16 *f, Mapu16 *g);
 
@@ -83,9 +83,9 @@ bool mapu16_hasNotfixedPoints(Mapu16 *map);
 u16 mapu16_getMaximalNotfixedImage(Mapu16 *map);
 
 
-// --------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 // Printing
-// --------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 /*
   For doc see sarray.h. The formatting looks like this:
@@ -113,23 +113,23 @@ void mapu16_printToWidth(Mapu16 *map, u32 width, u32 indent);
 void mapu16_printDefault(Mapu16 *map);
 */
 
-// --------------------------------------------------------------------------
-// Inline Functions
-// --------------------------------------------------------------------------
 
-/*
-  Maps from index to element
- */
-inline u16 mapu16_mapInd(Mapu16 *map, u32 ind) {
+// ---------------------------------------------------------------------------
+// Inline Functions
+// ---------------------------------------------------------------------------
+
+inline u16 mapu16_mapInd(Mapu16 *map, u32 ind)
+{
 #ifdef BOUNDS_CHECK
-  if(index >= map->codomain->size) {
-    boundsErrorAndExit("mapu16_mapEle", map->codomain.>size, index);
+  if(ind >= map->codomain->size) {
+    boundsErrorAndExit("mapu16_mapEle", map->codomain->size, ind);
   }
 #endif
   return *vecu16_at(map->codomain, ind);
 }
 
-inline u16 mapu16_mapEle(Mapu16 *map, u16 ele) {
+inline u16 mapu16_mapEle(Mapu16 *map, u16 ele)
+{
   u32 index = -1;
   if(map->indexed) {
     index = ele;

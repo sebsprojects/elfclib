@@ -1,5 +1,4 @@
 #include "../include/elfc_veci32.h"
-#include "../include/elfc_math.h"
 
 #include <stdlib.h>
 #include <stdarg.h>
@@ -8,11 +7,24 @@
 #include <math.h>
 
 
+// ---------------------------------------------------------------------------
+// Inlines
+// ---------------------------------------------------------------------------
+
+extern i32 *veci32_at(Veci32 *vector, u32 index);
+
+
 // --------------------------------------------------------------------------
 // Alloc / Free
 // --------------------------------------------------------------------------
 
-Veci32 *veci32_alloc(u32 size) {
+Veci32 *veci32_alloc(u32 size)
+{
+#ifdef BOUNDS_CHECK
+  if(size == 0) {
+    boundsErrorAndExit("veci32_alloc", 1, size);
+  }
+#endif
   Veci32 *vector = malloc(sizeof(Veci32));
   vector->allocSize = size;
   vector->size = size;
@@ -20,38 +32,37 @@ Veci32 *veci32_alloc(u32 size) {
   return vector;
 }
 
-Veci32 *veci32_allocN(u32 n, ...) {
+Veci32 *veci32_allocN(u32 n, ...)
+{
+#ifdef BOUNDS_CHECK
+  if(n == 0) {
+    boundsErrorAndExit("veci32_allocN", 1, n);
+  }
+#endif
   Veci32 *vector = veci32_alloc(n);
   va_list args;
   va_start(args, n);
-  i32 i;
-  for(i = 0; i < n; i++) {
+  for(i32 i = 0; i < n; i++) {
     vector->data[i] = va_arg(args, i32);
   }
   va_end(args);
   return vector;
 }
 
-void veci32_free(Veci32 *vector) {
+void veci32_free(Veci32 *vector)
+{
   free(vector->data);
   free(vector);
 }
 
 
 // --------------------------------------------------------------------------
-// Access
+// Operation
 // --------------------------------------------------------------------------
 
-i32 *veci32_at(Veci32 *vector, u32 index) {
-  if(index >= vector->size) {
-    boundsErrorAndExit("veci32_at", vector->size, index);
-  }
-  return &vector->data[index];
-}
-
-bool veci32_indexOf(Veci32 *vector, i32 value, u32 offset, u32 *index) {
-  i32 i;
-  for(i = offset; i < vector->size; i++) {
+bool veci32_indexOf(Veci32 *vector, i32 value, u32 offset, u32 *index)
+{
+  for(i32 i = offset; i < vector->size; i++) {
     if(*veci32_at(vector, i) == value) {
       *index = i;
       return 1;
@@ -60,30 +71,29 @@ bool veci32_indexOf(Veci32 *vector, i32 value, u32 offset, u32 *index) {
   return 0;
 }
 
-
-// --------------------------------------------------------------------------
-// Operation
-// --------------------------------------------------------------------------
-
-i32 veci32_max(Veci32 *vector) {
+i32 veci32_max(Veci32 *vector)
+{
+#ifdef BOUNDS_CHECK
   if(vector->size == 0) {
     errorAndExit("veci32_max: No elements");
   }
-  i32 i;
+#endif
   i32 max = I32_MIN;
-  for(i = 0; i < vector->size; i++) {
+  for(i32 i = 0; i < vector->size; i++) {
     max = i32_max(max, *veci32_at(vector, i));
   }
   return max;
 }
 
-i32 veci32_min(Veci32 *vector) {
+i32 veci32_min(Veci32 *vector)
+{
+#ifdef BOUNDS_CHECK
   if(vector->size == 0) {
     errorAndExit("veci32_min: No elements");
   }
-  i32 i;
+#endif
   i32 min = I32_MAX;
-  for(i = 0; i < vector->size; i++) {
+  for(i32 i = 0; i < vector->size; i++) {
     min = i32_min(min, *veci32_at(vector, i));
   }
   return min;
@@ -94,7 +104,8 @@ i32 veci32_min(Veci32 *vector) {
 // Print
 // --------------------------------------------------------------------------
 
-void veci32_sprint(char *pstring, Veci32 *vector, u32 width) {
+void veci32_sprint(char *pstring, Veci32 *vector, u32 width)
+{
   i32 viMin = veci32_min(vector);
   u32 maxAbs = i32_max(abs(veci32_max(vector)), abs(viMin));
   u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
@@ -103,8 +114,7 @@ void veci32_sprint(char *pstring, Veci32 *vector, u32 width) {
   char format[20]; format[0] = '\0';
   sprintf(format, "%s%u%s", "%", padTo, "i");
   sprintf(pstring, "vi32: len=%u\n", vector->size);
-  i32 i;
-  for(i = 0; i < vector->size; i++) {
+  for(i32 i = 0; i < vector->size; i++) {
     sprintf(pstring + strlen(pstring), format, *veci32_at(vector, i), padTo);
     if(i < vector->size - 1) {
       sprintf(pstring + strlen(pstring), ", ");
@@ -115,7 +125,8 @@ void veci32_sprint(char *pstring, Veci32 *vector, u32 width) {
   }
 }
 
-void veci32_print(Veci32 *vector) {
+void veci32_print(Veci32 *vector)
+{
   i32 viMin = veci32_min(vector);
   u32 maxAbs = i32_max(abs(veci32_max(vector)), abs(viMin));
   u32 numDigits = maxAbs == 0 ? 1 : floor(log10(maxAbs)) + 1;
