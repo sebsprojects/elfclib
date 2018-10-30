@@ -59,10 +59,17 @@ void mapu16_setDefault(Mapu16 *map)
   }
 }
 
-void mapu16_mapArray(Mapu16 *map, Vecu16 *from, Vecu16 *to)
+void mapu16_mapEleVec(Mapu16 *map, Vecu16 *from, Vecu16 *to)
 {
   for(i32 i = 0; i < from->size; i++) {
     *vecu16_at(to, i) = mapu16_mapEle(map, *vecu16_at(from, i));
+  }
+}
+
+void mapu16_mapIndVec(Mapu16 *map, Vecu16 *from, Vecu16 *to)
+{
+  for(i32 i = 0; i < from->size; i++) {
+    *vecu16_at(to, i) = mapu16_mapInd(map, *vecu16_at(from, i));
   }
 }
 
@@ -92,10 +99,6 @@ bool mapu16_isValid(Mapu16 *map)
         return 0;
       }
     }
-    if(*vecu16_at(map->codomain, i) == 0xffff ||
-       *vecu16_at(map->domain, i) == 0xffff) {
-      return 0;
-    }
   }
   return 1;
 }
@@ -110,9 +113,12 @@ bool mapu16_areEqual(Mapu16 *f, Mapu16 *g)
   }
   u32 ind;
   for(i32 i = 0; i < f->domain->size; i++) {
-    if(vecu16_indexOf(g->domain, *vecu16_at(f->domain, i), &ind, 0)) {
+    // Manually check f->domain is subset of g->domain b/c we need ind anyway
+    // Assumes that f, g are valid, i.e. one direction subset check suffices
+    if(!vecu16_indexOf(g->domain, *vecu16_at(f->domain, i), &ind, 0)) {
       return 0;
     }
+    // ind is index of f->domain[i] in g->domain
     if(mapu16_mapInd(f, i) != mapu16_mapInd(g, ind)) { // f(ele) != g(ele)
       return 0;
     }
@@ -122,13 +128,7 @@ bool mapu16_areEqual(Mapu16 *f, Mapu16 *g)
 
 bool mapu16_areComposable(Mapu16 *f, Mapu16 *g)
 {
-  u32 ind;
-  for(i32 i = 0; i < g->codomain->size; i++) {
-    if(!vecu16_indexOf(f->domain, *vecu16_at(g->codomain, i), &ind, 0)) {
-      return 0;
-    }
-  }
-  return 1;
+  return vecu16_isSubset(g->codomain, f->domain);
 }
 
 bool mapu16_isSurjectiveIn(Mapu16 *map, Vecu16 *set)
@@ -143,17 +143,18 @@ bool mapu16_isInjective(Mapu16 *map)
 
 void mapu16_comp_noalloc(Mapu16 *f, Mapu16 *g, Mapu16 *comp, bool setDomain)
 {
-  for(i32 i = 0; i < g->domain->size; i++) {
-    if(setDomain) {
-      *vecu16_at(comp->domain, i) = *vecu16_at(g->domain, i);
-    }
-    *vecu16_at(comp->codomain, i) = mapu16_mapEle(f, mapu16_mapInd(g, i));
+  if(setDomain) {
+    vecu16_copyInto(comp->domain, g->domain);
   }
+  // "map" g->domain to g->codomain by copying
+  vecu16_copyInto(comp->codomain, g->codomain);
+  // map g->codomain by applying f
+  mapu16_mapEleVec(f, comp->codomain, comp->codomain);
 }
 
 Mapu16 *mapu16_comp_alloc(Mapu16 *f, Mapu16 *g) {
   Mapu16 *comp = mapu16_alloc(g->domain->size, g->indexed);
-  mapu16_comp_noalloc(f, g, comp, 0);
+  mapu16_comp_noalloc(f, g, comp, 1);
   return comp;
 }
 
@@ -169,17 +170,13 @@ bool mapu16_hasNotfixedPoints(Mapu16 *map)
 
 u16 mapu16_getMaximalNotfixedImage(Mapu16 *map)
 {
-#ifdef BOUNDS_CHECK
-  if(!mapu16_hasNotfixedPoints(map)) {
-    errorAndExit("mapu16_getMaximalNotfixedImage has no not-fixed-points");
-  }
-#endif
   u16 max = 0;
-  u16 ele;
+  u16 x, fx;
   for(i32 i = 0; i < map->domain->size; i++) {
-    ele = *vecu16_at(map->domain, i);
-    if(mapu16_mapInd(map, i) != ele) {
-      max = u16_max(mapu16_mapInd(map, i), max);
+    x = *vecu16_at(map->domain, i);
+    fx = mapu16_mapInd(map, i);
+    if(x != fx) {
+      max = u16_max(fx, max);
     }
   }
   return max;

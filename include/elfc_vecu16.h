@@ -29,6 +29,7 @@ void vecu16_free(Vecu16 *vector);
 // Operation
 // --------------------------------------------------------------------------
 
+// if value is not found, 0 is returned and index left unchanged
 bool vecu16_indexOf(Vecu16 *vector, u16 value, u32 *index, u32 offset);
 
 void vecu16_fill(Vecu16 *vector, u16 val);
@@ -42,7 +43,9 @@ void vecu16_resize(Vecu16 *vector, u32 newSize);
 // Makes an exact copy of vector (up to allocSize, not just size)
 Vecu16 *vecu16_copy(Vecu16 *vector);
 
-// Copys the contents of from to to (only up to size). Fails if size too small
+// Copys the contents of from to to (only up to size)
+// Fails if to->size too small
+// Leaves anything in exceeding to[from->size] unchanged
 void vecu16_copyInto(Vecu16 *to, Vecu16 *from);
 
 // Sorts between [start, end] using stdlib qsort
