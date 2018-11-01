@@ -1,0 +1,8 @@
+* Up next
+** TODO Improve printing for vecu16 (square printing)
+** TODO Implement printing for mapu16
+** TODO Implement remaining mapu16 test cases
+** TODO Implement vecptr test cases
+** TODO Implement printing tests
+
+** TODO Implement permutation stuff

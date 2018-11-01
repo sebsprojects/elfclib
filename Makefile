@@ -1,9 +1,9 @@
-CC_FLAGS = -Wall
+CC_FLAGS = -Wall -std=c99
 LN_FLAGS = -lm
+CC = gcc
 
 # Testing
 ifneq "$(findstring test, $(MAKECMDGOALS))" ""
-CC = gcc
 CC_FLAGS += -O3 -MMD
 SRC_FILES = $(wildcard test/test.c)
 OBJ_EXTENSION = o
@@ -11,8 +11,7 @@ endif
 
 # Native Lib
 ifneq "$(findstring libnative, $(MAKECMDGOALS))" ""
-CC = gcc
-CC_FLAGS += -O3 -MMD -std=c99
+CC_FLAGS += -O3 -MMD
 OBJ_EXTENSION = o
 endif
 
@@ -25,6 +24,22 @@ endif
 
 ifeq ($(BOUNDS_CHECK), 1)
 CC_FLAGS += -DBOUNDS_CHECK
+endif
+
+ifeq ($(CLANG), 1)
+CC = clang
+ifeq ($(SAN), mem)
+CC_FLAGS += -fsanitize=memory -fno-omit-frame-pointer
+LN_FLAGS += -fsanitize=memory
+endif
+ifeq ($(SAN), adr)
+CC_FLAGS += -fsanitize=address -fno-omit-frame-pointer
+LN_FLAGS += -fsanitize=address
+endif
+ifeq ($(SAN), und)
+CC_FLAGS += -fsanitize=undefined
+LN_FLAGS += -fsanitize=undefined
+endif
 endif
 
 # -----------------------------------------------------------------------------

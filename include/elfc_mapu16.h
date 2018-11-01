@@ -28,8 +28,7 @@ typedef struct Mapu16 Mapu16;
  */
 Mapu16 *mapu16_alloc(u32 size, bool indexed);
 
-Mapu16 *mapu16_alloc_ref(u32 size, bool indexed,
-                         Vecu16 *domain, Vecu16 *codomain);
+Mapu16 *mapu16_alloc_ref(Vecu16 *domain, Vecu16 *codomain, bool indexed);
 
 void mapu16_free(Mapu16 *map);
 void mapu16_free_ref(Mapu16 *map);
@@ -40,7 +39,7 @@ void mapu16_free_ref(Mapu16 *map);
 // ---------------------------------------------------------------------------
 
 /*
- * Sets domain and codomain to [0..map->domain->size)
+ * Sets domain and codomain to [0..map->domain->size). Set map->indexed = 1
  */
 void mapu16_setDefault(Mapu16 *map);
 
@@ -49,7 +48,12 @@ void mapu16_mapIndVec(Mapu16 *map, Vecu16 *from, Vecu16 *to);
 
 void mapu16_toZero(Mapu16 *map);
 void mapu16_toId(Mapu16 *map);
+bool mapu16_isId(Mapu16 *map);
 
+/*
+ * A map is valid if map->domain->size == map->codomain->size and the domain
+ * contains no duplicates
+ */
 bool mapu16_isValid(Mapu16 *map);
 
 bool mapu16_areEqual(Mapu16 *f, Mapu16 *g);

@@ -37,7 +37,7 @@ bool vecu16_indexOf(Vecu16 *vector, u16 value, u32 *index, u32 offset);
 void vecu16_fill(Vecu16 *vector, u16 val);
 
 /*
- * Sets vector[from]-vector[to-1] to the values 0+offset - (to-from-1)+offset
+ * Sets vector to [from+offs, to+offs)
  */
 void vecu16_setToRange(Vecu16 *vector, u16 from, u16 to, u16 offset);
 
@@ -87,7 +87,7 @@ bool vecu16_areEqualSets(Vecu16 *a, Vecu16 *b);
 bool vecu16_hasDuplicates(Vecu16 *vector);
 
 /*
- * Tests if set contains sub
+ * Tests if set contains sub, duplicates are irrelevant to this test
  */
 bool vecu16_isSubset(Vecu16 *sub, Vecu16 *set);
 

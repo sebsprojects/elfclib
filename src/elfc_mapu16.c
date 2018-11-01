@@ -29,8 +29,7 @@ Mapu16 *mapu16_alloc(u32 size, bool indexed)
   return map;
 }
 
-Mapu16 *mapu16_alloc_ref(u32 size, bool indexed,
-                         Vecu16 *domain, Vecu16 *codomain)
+Mapu16 *mapu16_alloc_ref(Vecu16 *domain, Vecu16 *codomain, bool indexed)
 {
   Mapu16 *map = malloc(sizeof(Mapu16));
   map->indexed = indexed;
@@ -59,10 +58,8 @@ void mapu16_free_ref(Mapu16 *map)
 void mapu16_setDefault(Mapu16 *map)
 {
   map->indexed = 1;
-  for(i32 i = 0; i < map->domain->size; i++) {
-    *vecu16_at(map->domain, i) = i;
-    *vecu16_at(map->codomain, i) = i;
-  }
+  vecu16_setToRange(map->domain, 0, map->domain->size, 0);
+  vecu16_setToRange(map->codomain, 0, map->codomain->size, 0);
 }
 
 void mapu16_mapEleVec(Mapu16 *map, Vecu16 *from, Vecu16 *to)
@@ -93,20 +90,20 @@ void mapu16_toId(Mapu16 *map)
   }
 }
 
-bool mapu16_isValid(Mapu16 *map)
+bool mapu16_isId(Mapu16 *map)
 {
-  u32 n = map->domain->size;
-  if(n != map->codomain->size) {
-    return 0;
-  }
-  for(i32 i = 0; i < n; i++) {
-    for(i32 j = 0; j < i; j++) {
-      if(*vecu16_at(map->domain, i) == *vecu16_at(map->domain, j)) {
-        return 0;
-      }
+  for(i32 i = 0; i < map->domain->size; i++) {
+    if(*vecu16_at(map->domain, i) != *vecu16_at(map->codomain, i)) {
+      return 0;
     }
   }
   return 1;
+}
+
+bool mapu16_isValid(Mapu16 *map)
+{
+  return map->domain->size == map->codomain->size &&
+         !vecu16_hasDuplicates(map->domain);
 }
 
 bool mapu16_areEqual(Mapu16 *f, Mapu16 *g)
@@ -158,7 +155,8 @@ void mapu16_comp_noalloc(Mapu16 *f, Mapu16 *g, Mapu16 *comp, bool setDomain)
   mapu16_mapEleVec(f, comp->codomain, comp->codomain);
 }
 
-Mapu16 *mapu16_comp_alloc(Mapu16 *f, Mapu16 *g) {
+Mapu16 *mapu16_comp_alloc(Mapu16 *f, Mapu16 *g)
+{
   Mapu16 *comp = mapu16_alloc(g->domain->size, g->indexed);
   mapu16_comp_noalloc(f, g, comp, 1);
   return comp;
