@@ -2,7 +2,7 @@
 #include "../include/elfc_mapu16.h"
 
 
-bool test_setDefault()
+bool test_mapu16_setDefault()
 {
   bool ok = 1;
   Mapu16* map = mapu16_alloc(4, 0);
@@ -16,7 +16,7 @@ bool test_setDefault()
   return ok;
 }
 
-bool test_toZero()
+bool test_mapu16_toZero()
 {
   bool ok = 1;
   Mapu16 *map = mapu16_alloc(4, 0);
@@ -29,7 +29,7 @@ bool test_toZero()
   return ok;
 }
 
-bool test_toId()
+bool test_mapu16_toId()
 {
   bool ok = 1;
   Mapu16 *map = mapu16_alloc(4, 1);
@@ -52,7 +52,7 @@ bool test_toId()
   return ok;
 }
 
-bool test_isId()
+bool test_mapu16_isId()
 {
   bool ok = 1;
   Mapu16 *map = mapu16_alloc(3, 1);
@@ -69,7 +69,7 @@ bool test_isId()
   return ok;
 }
 
-bool test_mapInd()
+bool test_mapu16_mapInd()
 {
   bool ok = 1;
   Mapu16 *map = mapu16_alloc(4, 1);
@@ -85,7 +85,7 @@ bool test_mapInd()
   return ok;
 }
 
-bool test_mapEle()
+bool test_mapu16_mapEle()
 {
   bool ok = 1;
   Mapu16 *map = mapu16_alloc(4, 1);
@@ -108,7 +108,7 @@ bool test_mapEle()
   return ok;
 }
 
-bool test_mapEleVec()
+bool test_mapu16_mapEleVec()
 {
   bool ok = 1;
   Mapu16 *map = mapu16_alloc(4, 1);
@@ -135,7 +135,7 @@ bool test_mapEleVec()
   return ok;
 }
 
-bool test_mapIndVec() {
+bool test_mapu16_mapIndVec() {
   bool ok = 1;
   Mapu16 *map = mapu16_alloc(4, 1);
   mapu16_setDefault(map);
@@ -160,7 +160,7 @@ bool test_mapIndVec() {
   return ok;
 }
 
-bool test_isValid()
+bool test_mapu16_isValid()
 {
   bool ok = 1;
   Mapu16 *map = mapu16_alloc(4, 1);
@@ -180,7 +180,7 @@ bool test_isValid()
 }
 
 // TODO: Only tests simple positive case right now
-bool test_areEqual()
+bool test_mapu16_areEqual()
 {
   bool ok = 1;
   Vecu16 *dom1 = vecu16_allocN(4, 0, 1, 2, 3);
@@ -202,7 +202,7 @@ bool test_areEqual()
 }
 
 // This test is pretty much covered by vecu16_isSubset. Only one positive case
-bool test_areComposable()
+bool test_mapu16_areComposable()
 {
   bool ok = 1;
   Mapu16 *f = mapu16_alloc(4, 1);
@@ -218,7 +218,7 @@ bool test_areComposable()
   return ok;
 }
 
-bool test_isSurjectiveIn()
+bool test_mapu16_isSurjectiveIn()
 {
   bool ok = 1;
   Mapu16 *map = mapu16_alloc(4, 1);
@@ -235,7 +235,7 @@ bool test_isSurjectiveIn()
   return ok;
 }
 
-bool test_isInjective()
+bool test_mapu16_isInjective()
 {
   bool ok = 1;
   Mapu16 *map = mapu16_alloc(4, 1);
@@ -247,7 +247,7 @@ bool test_isInjective()
   return ok;
 }
 
-bool test_comp()
+bool test_mapu16_comp()
 {
   bool ok = 1;
   // f:         g:
@@ -288,20 +288,20 @@ bool test_comp()
 
 void test_mapu16()
 {
-  printTestHeader("mapu16");
-  printTestMessage(test_setDefault(), "mapu16_setDefault");
-  printTestMessage(test_toZero(), "mapu16_toZero");
-  printTestMessage(test_toId(), "mapu16_toId");
-  printTestMessage(test_isId(), "mapu16_isId");
-  printTestMessage(test_mapInd(), "mapu16_mapInd");
-  printTestMessage(test_mapEle(), "mapu16_mapEle");
-  printTestMessage(test_mapIndVec(), "mapu16_mapIndVec");
-  printTestMessage(test_mapEleVec(), "mapu16_mapEleVec");
-  printTestMessage(test_isValid(), "mapu16_isValid");
-  printTestMessage(test_areEqual(), "mapu16_areEqual");
-  printTestMessage(test_areComposable(), "mapu16_areComposable");
-  printTestMessage(test_isSurjectiveIn(), "mapu16_isSurjectiveIn");
-  printTestMessage(test_isInjective(), "mapu16_isInjective");
-  printTestMessage(test_comp(), "mapu16_comp");
-  printTestFooter();
+  test_printHeader("mapu16");
+  test_printMessage(test_mapu16_setDefault(), "mapu16_setDefault");
+  test_printMessage(test_mapu16_toZero(), "mapu16_toZero");
+  test_printMessage(test_mapu16_toId(), "mapu16_toId");
+  test_printMessage(test_mapu16_isId(), "mapu16_isId");
+  test_printMessage(test_mapu16_mapInd(), "mapu16_mapInd");
+  test_printMessage(test_mapu16_mapEle(), "mapu16_mapEle");
+  test_printMessage(test_mapu16_mapIndVec(), "mapu16_mapIndVec");
+  test_printMessage(test_mapu16_mapEleVec(), "mapu16_mapEleVec");
+  test_printMessage(test_mapu16_isValid(), "mapu16_isValid");
+  test_printMessage(test_mapu16_areEqual(), "mapu16_areEqual");
+  test_printMessage(test_mapu16_areComposable(), "mapu16_areComposable");
+  test_printMessage(test_mapu16_isSurjectiveIn(), "mapu16_isSurjectiveIn");
+  test_printMessage(test_mapu16_isInjective(), "mapu16_isInjective");
+  test_printMessage(test_mapu16_comp(), "mapu16_comp");
+  test_printFooter();
 }

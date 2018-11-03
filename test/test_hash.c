@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 
-bool test_hashGen()
+bool test_hash_djb2()
 {
   bool ok = 1;
   char *string1 = "123456789213456789123456789123456789";
@@ -24,7 +24,7 @@ bool test_hashGen()
 
 void test_hash()
 {
-  printTestHeader("hash");
-  printTestMessage(test_hashGen(), "hash_gen");
-  printTestFooter();
+  test_printHeader("hash");
+  test_printMessage(test_hash_djb2(), "hash_djb2");
+  test_printFooter();
 }

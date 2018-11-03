@@ -125,12 +125,12 @@ void vecu16_copyInto(Vecu16 *to, Vecu16 *from)
 void vecu16_sort(Vecu16 *vector, u32 start, u32 end)
 {
 #ifdef BOUNDS_CHECK
-  if(start >=vector->size || end >= vector->size) {
+  if(start > vector->size || end > vector->size) {
     boundsErrorAndExit("vecu16_sort", vector->size, u16_max(start, end));
   }
 #endif
   u16 *base = &vector->data[start];
-  u32 num = end - start + 1;
+  u32 num = end - start;
   bool u16_lessThanCompare(const void *x, const void* y);
   qsort(base, num, sizeof(u16), u16_lessThanCompare);
 }
@@ -157,8 +157,8 @@ bool vecu16_haveEqualContent(Vecu16 *a, Vecu16 *b)
 {
   Vecu16 *ac = vecu16_copy(a);
   Vecu16 *bc = vecu16_copy(b);
-  vecu16_sort(ac, 0, ac->size - 1);
-  vecu16_sort(bc, 0, bc->size - 1);
+  vecu16_sort(ac, 0, ac->size);
+  vecu16_sort(bc, 0, bc->size);
   bool equal = vecu16_areEqualVectors(ac, bc);
   vecu16_free(bc);
   vecu16_free(ac);

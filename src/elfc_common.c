@@ -26,13 +26,13 @@ extern u32 get2DIndex(u32 width, u32 w, u32 h);
 
 void errorAndExit(char *message)
 {
-  fprintf(stderr, "%s", message);
+  fprintf(stderr, "%s\n", message);
   exit(1);
 }
 
 void boundsErrorAndExit(char *message, u32 bound, u32 index)
 {
-  fprintf(stderr, "Out of bounds error at %s: bound=%u index=%u",
+  fprintf(stderr, "Out of bounds error at %s: bound=%u index=%u\n",
           message, bound, index);
   exit(1);
 }

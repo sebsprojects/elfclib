@@ -59,7 +59,7 @@ Vecu16 *vecu16_copy(Vecu16 *vector);
 void vecu16_copyInto(Vecu16 *to, Vecu16 *from);
 
 /*
- * Sorts between [start, end] using stdlib qsort
+ * Sorts between [start, end) using stdlib qsort
  */
 void vecu16_sort(Vecu16 *vector, u32 start, u32 end);
 

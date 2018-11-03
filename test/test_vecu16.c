@@ -2,7 +2,7 @@
 #include "../include/elfc_common.h"
 #include "../include/elfc_vecu16.h"
 
-bool test_indexOf()
+bool test_vecu16_indexOf()
 {
   bool ok = 1;
   Vecu16 *vec = vecu16_allocN(5, 0, 1, 2, 4, 3);
@@ -17,7 +17,7 @@ bool test_indexOf()
   return ok;
 }
 
-bool test_fill()
+bool test_vecu16_fill()
 {
   Vecu16 *vec = vecu16_alloc(5);
   vecu16_fill(vec, 42);
@@ -30,7 +30,7 @@ bool test_fill()
   return ok;
 }
 
-bool test_setToRange()
+bool test_vecu16_setToRange()
 {
   Vecu16 *vec = vecu16_allocN(7, 0, 0, 0, 0, 0, 0, 0);
   vecu16_setToRange(vec, 2, 5, 2);
@@ -47,7 +47,7 @@ bool test_setToRange()
   return ok;
 }
 
-bool test_resize()
+bool test_vecu16_resize()
 {
   Vecu16 *vec = vecu16_alloc(10);
   vecu16_fill(vec, 0);
@@ -61,7 +61,7 @@ bool test_resize()
   return ok;
 }
 
-bool test_copy()
+bool test_vecu16_copy()
 {
   Vecu16 *vec = vecu16_allocN(4, 1, 2, 3, 4);
   vecu16_resize(vec, 2);
@@ -77,7 +77,7 @@ bool test_copy()
   return ok;
 }
 
-bool test_copyInto()
+bool test_vecu16_copyInto()
 {
   Vecu16 *vec = vecu16_allocN(4, 1, 2, 3, 4);
   Vecu16 *copy = vecu16_allocN(4, 0, 0, 0, 0);
@@ -93,10 +93,10 @@ bool test_copyInto()
   return ok;
 }
 
-bool test_sort()
+bool test_vecu16_sort()
 {
   Vecu16 *vec = vecu16_allocN(6, 6, 5, 3, 2, 4, 1);
-  vecu16_sort(vec, 2, 4);
+  vecu16_sort(vec, 2, 5);
   bool ok = 1;
   ok = ok && *vecu16_at(vec, 0) == 6;
   ok = ok && *vecu16_at(vec, 1) == 5;
@@ -108,7 +108,7 @@ bool test_sort()
   return ok;
 }
 
-bool test_areEqualVectors()
+bool test_vecu16_areEqualVectors()
 {
   Vecu16 *vec = vecu16_allocN(5, 1, 2, 3, 4, 5);
   Vecu16 *copy = vecu16_copy(vec);
@@ -129,7 +129,7 @@ bool test_areEqualVectors()
   return ok;
 }
 
-bool test_haveEqualContent()
+bool test_vecu16_haveEqualContent()
 {
   Vecu16 *a = vecu16_allocN(4, 1, 2, 3, 1);
   Vecu16 *b = vecu16_allocN(4, 2, 3, 1, 1);
@@ -147,7 +147,7 @@ bool test_haveEqualContent()
   return ok;
 }
 
-bool test_hasDuplicates()
+bool test_vecu16_hasDuplicates()
 {
   Vecu16 *a = vecu16_allocN(5, 1, 2, 3, 3, 4);
   Vecu16 *b = vecu16_allocN(5, 1, 2, 3, 4, 5);
@@ -159,7 +159,7 @@ bool test_hasDuplicates()
   return ok;
 }
 
-bool test_isSubset()
+bool test_vecu16_isSubset()
 {
   Vecu16 *a = vecu16_allocN(5, 1, 2, 3, 4, 5);
   Vecu16 *b = vecu16_allocN(3, 2, 1, 3);
@@ -182,7 +182,7 @@ bool test_isSubset()
   return ok;
 }
 
-bool test_areEqualSets()
+bool test_vecu16_areEqualSets()
 {
   Vecu16 *a = vecu16_allocN(5, 1, 2, 2, 3, 4);
   Vecu16 *b = vecu16_allocN(4, 1, 2, 3, 4);
@@ -197,18 +197,18 @@ bool test_areEqualSets()
 
 void test_vecu16()
 {
-  printTestHeader("vecu16");
-  printTestMessage(test_indexOf(), "vecu16_indexOf");
-  printTestMessage(test_fill(), "vecu16_fill");
-  printTestMessage(test_setToRange(), "vecu16_setToRange");
-  printTestMessage(test_resize(), "vecu16_resize");
-  printTestMessage(test_copy(), "vecu16_copy");
-  printTestMessage(test_copyInto(), "vecu16_copyInto");
-  printTestMessage(test_sort(), "vecu16_copySort");
-  printTestMessage(test_areEqualVectors(), "vecu16_areEqualVectors");
-  printTestMessage(test_haveEqualContent(), "vecu16_haveEqualContent");
-  printTestMessage(test_hasDuplicates(), "vecu16_hasDuplicates");
-  printTestMessage(test_isSubset(), "vecu16_isSubset");
-  printTestMessage(test_areEqualSets(), "vecu16_areEqualSets");
-  printTestFooter();
+  test_printHeader("vecu16");
+  test_printMessage(test_vecu16_indexOf(), "vecu16_indexOf");
+  test_printMessage(test_vecu16_fill(), "vecu16_fill");
+  test_printMessage(test_vecu16_setToRange(), "vecu16_setToRange");
+  test_printMessage(test_vecu16_resize(), "vecu16_resize");
+  test_printMessage(test_vecu16_copy(), "vecu16_copy");
+  test_printMessage(test_vecu16_copyInto(), "vecu16_copyInto");
+  test_printMessage(test_vecu16_sort(), "vecu16_copySort");
+  test_printMessage(test_vecu16_areEqualVectors(), "vecu16_areEqualVectors");
+  test_printMessage(test_vecu16_haveEqualContent(), "vecu16_haveEqualContent");
+  test_printMessage(test_vecu16_hasDuplicates(), "vecu16_hasDuplicates");
+  test_printMessage(test_vecu16_isSubset(), "vecu16_isSubset");
+  test_printMessage(test_vecu16_areEqualSets(), "vecu16_areEqualSets");
+  test_printFooter();
 }
