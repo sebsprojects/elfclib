@@ -1,7 +1,8 @@
 * Up next
-** TODO Implement binom functions
-** TODO Add binom function tests
 
+
+* Housekeeping
+** TODO Reduce the usage of u32 in favor of i32 whereever possible
 ** TODO Improve printing for vecu16 (square printing)
 ** TODO Implement printing for mapu16
 ** TODO Implement vecptr test cases

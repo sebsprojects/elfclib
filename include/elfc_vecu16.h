@@ -30,16 +30,18 @@ void vecu16_free(Vecu16 *vector);
 // ---------------------------------------------------------------------------
 
 /*
- * If value is not found, 0 is returned and index left unchanged
+ * Set index to the index of the first occurance of value in vector starting
+ * at offset. If value is not found, 0 is returned and index left unchanged
  */
 bool vecu16_indexOf(Vecu16 *vector, u16 value, u32 *index, u32 offset);
 
 void vecu16_fill(Vecu16 *vector, u16 val);
 
 /*
- * Sets vector to [from+offs, to+offs)
+ * Sets vector between indices [from, to) to a range
+ * rangeOffset, rangeOffset + 1, rangeOffset + 2, ...
  */
-void vecu16_setToRange(Vecu16 *vector, u16 from, u16 to, u16 offset);
+void vecu16_setToRange(Vecu16 *vector, u16 from, u16 to, u16 rangeOffset);
 
 /*
  * Set size to newSize

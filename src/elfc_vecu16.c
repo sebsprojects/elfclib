@@ -78,7 +78,7 @@ void vecu16_fill(Vecu16 *vector, u16 val)
   }
 }
 
-void vecu16_setToRange(Vecu16 *vector, u16 from, u16 to, u16 offset)
+void vecu16_setToRange(Vecu16 *vector, u16 from, u16 to, u16 rangeOffset)
 {
 #ifdef BOUNDS_CHECK
   if(vector->size <= from || vector->size < to) {
@@ -86,7 +86,7 @@ void vecu16_setToRange(Vecu16 *vector, u16 from, u16 to, u16 offset)
   }
 #endif
   for(i32 i = from; i < to; i++) {
-    *vecu16_at(vector, i) = i - from + offset;
+    *vecu16_at(vector, i) = i - from + rangeOffset;
   }
 }
 
