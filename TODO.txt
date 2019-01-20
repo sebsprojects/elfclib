@@ -1,10 +1,14 @@
 * Up next
-
+** TODO Test for vecu16_contains
+** TODO Test for new math functions
+** TODO Tests for remaining elfc_perm.h functions
 
 * Housekeeping
+** TODO Modify test_vecu16 and test_map16 to use test_check functionality
 ** TODO Reduce the usage of u32 in favor of i32 whereever possible
 ** TODO Improve printing for vecu16 (square printing)
 ** TODO Implement printing for mapu16
 ** TODO Implement vecptr test cases
 ** TODO Implement printing tests
-
+** TODO Fix all vector implementations to allow 0-sized vectors. Dependend
+        changes: elfc_math: getPrimeFactors for input 0 and 1

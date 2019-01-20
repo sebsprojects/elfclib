@@ -71,6 +71,12 @@ bool vecu16_indexOf(Vecu16 *vector, u16 value, u32 *index, u32 offset)
   return 0;
 }
 
+bool vecu16_contains(Vecu16 *vector, u16 value, u32 offset)
+{
+  u32 *ind = 0;
+  return vecu16_indexOf(vector, value, ind, offset);
+}
+
 void vecu16_fill(Vecu16 *vector, u16 val)
 {
   for(i32 i = 0; i < vector->size; i++) {

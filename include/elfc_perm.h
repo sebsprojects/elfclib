@@ -66,8 +66,7 @@ u32 binom_getKIndex(Vecu16 *vec);
 // In contrast to the binomal structure this merely permutates a range of
 // integer within the vec. The array as a set is left invariant, only the
 // positioning of the elements changes.
-// The value 0xffff is reserved and may not be used as part of a 0xffff-sized
-// permutation
+// The value 0xffff is reserved and may not be used
 // ---------------------------------------------------------------------------
 
 /*

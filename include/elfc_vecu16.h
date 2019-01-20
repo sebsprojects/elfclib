@@ -35,6 +35,13 @@ void vecu16_free(Vecu16 *vector);
  */
 bool vecu16_indexOf(Vecu16 *vector, u16 value, u32 *index, u32 offset);
 
+/*
+ * Returns true if value is contained in vector offset at offset and false
+ * otherwise. Only a convenience wrapper for indexOf without the need to
+ * declare and pass the index pointer
+ */
+bool vecu16_contains(Vecu16 *vector, u16 value, u32 offset);
+
 void vecu16_fill(Vecu16 *vector, u16 val);
 
 /*
