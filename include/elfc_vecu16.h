@@ -61,11 +61,17 @@ void vecu16_resize(Vecu16 *vector, u32 newSize);
 Vecu16 *vecu16_copy(Vecu16 *vector);
 
 /*
- * Copys the contents of from to to (only up to size)
+ * Copys the contents of from to to (only up to size) starting at offset
  * Fails if to->size too small
  * Leaves anything in exceeding to[from->size] unchanged
  */
-void vecu16_copyInto(Vecu16 *to, Vecu16 *from);
+void vecu16_copyInto(Vecu16 *from, Vecu16 *to, u32 offset);
+
+/*
+ * Copies the the first num entries of vector into array (memcopy)
+ * Trusts that array has enough space to store num u16 values
+ */
+u16 *vecu16_copyIntoArray(u16 *array, Vecu16 *vector, u16 num);
 
 /*
  * Sorts between [start, end) using stdlib qsort
@@ -75,6 +81,7 @@ void vecu16_sort(Vecu16 *vector, u32 start, u32 end);
 /*
  * Tests if two vectors are equal but disregards order
  * Duplactes have impact
+ * Careful! Allocates and sorts copies of a and b! Expensive!
  */
 bool vecu16_haveEqualContent(Vecu16 *a, Vecu16 *b);
 

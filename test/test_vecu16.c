@@ -2,6 +2,8 @@
 #include "../include/elfc_common.h"
 #include "../include/elfc_vecu16.h"
 
+#include <string.h>
+
 bool test_vecu16_indexOf()
 {
   bool ok = 1;
@@ -82,13 +84,29 @@ bool test_vecu16_copyInto()
   Vecu16 *vec = vecu16_allocN(4, 1, 2, 3, 4);
   Vecu16 *copy = vecu16_allocN(4, 0, 0, 0, 0);
   vecu16_resize(vec, 3);
-  vecu16_copyInto(copy, vec);
+  vecu16_copyInto(vec, copy, 0);
   bool ok = 1;
   for(i32 i = 0; i < vec->size; i++) {
     ok = ok && *vecu16_at(vec, i) == *vecu16_at(copy, i);
   }
   ok = ok && *vecu16_at(copy, 3) == 0;
   vecu16_free(copy);
+  vecu16_free(vec);
+  return ok;
+}
+
+bool test_vecu16_copyIntoArray()
+{
+  Vecu16 *vec = vecu16_allocN(4, 1, 2, 3, 4);
+  u16 array[5];
+  memset(array, 0, 5 * sizeof(u16));
+  bool ok = 1;
+  vecu16_copyIntoArray(array, vec, 3);
+  ok = ok && array[0] == 1;
+  ok = ok && array[1] == 2;
+  ok = ok && array[2] == 3;
+  ok = ok && array[3] == 0;
+  ok = ok && array[4] == 0;
   vecu16_free(vec);
   return ok;
 }
@@ -204,6 +222,7 @@ void test_vecu16()
   test_printMessage(test_vecu16_resize(), "vecu16_resize");
   test_printMessage(test_vecu16_copy(), "vecu16_copy");
   test_printMessage(test_vecu16_copyInto(), "vecu16_copyInto");
+  test_printMessage(test_vecu16_copyIntoArray(), "vecu16_copyIntoArray");
   test_printMessage(test_vecu16_sort(), "vecu16_copySort");
   test_printMessage(test_vecu16_areEqualVectors(), "vecu16_areEqualVectors");
   test_printMessage(test_vecu16_haveEqualContent(), "vecu16_haveEqualContent");

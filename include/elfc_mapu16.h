@@ -33,13 +33,15 @@ Mapu16 *mapu16_alloc_ref(Vecu16 *domain, Vecu16 *codomain, bool indexed);
 void mapu16_free(Mapu16 *map);
 void mapu16_free_ref(Mapu16 *map);
 
+bool mapu16_isIndexed(Mapu16 *map);
 
 // ---------------------------------------------------------------------------
 // Operation
 // ---------------------------------------------------------------------------
 
 /*
- * Sets domain and codomain to [0..map->domain->size). Set map->indexed = 1
+ * Sets domain and codomain to [0..map->(co)domain->size).
+ * Set map->indexed = 1
  */
 void mapu16_setDefault(Mapu16 *map);
 
@@ -47,6 +49,10 @@ void mapu16_mapEleVec(Mapu16 *map, Vecu16 *from, Vecu16 *to);
 void mapu16_mapIndVec(Mapu16 *map, Vecu16 *from, Vecu16 *to);
 
 void mapu16_toZero(Mapu16 *map);
+
+/*
+ * Sets domain and codomain to [0..map->domain->size]
+ */
 void mapu16_toId(Mapu16 *map);
 bool mapu16_isId(Mapu16 *map);
 

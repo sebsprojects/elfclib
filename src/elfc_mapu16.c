@@ -50,6 +50,15 @@ void mapu16_free_ref(Mapu16 *map)
   free(map);
 }
 
+bool mapu16_isIndexed(Mapu16 *map)
+{
+  for(i32 i = 0; i < map->domain->size; i++) {
+    if(i != *vecu16_at(map->domain, i)) {
+      return 0;
+    }
+  }
+  return 1;
+}
 
 // ---------------------------------------------------------------------------
 // Operation
@@ -92,17 +101,13 @@ void mapu16_toId(Mapu16 *map)
 
 bool mapu16_isId(Mapu16 *map)
 {
-  for(i32 i = 0; i < map->domain->size; i++) {
-    if(*vecu16_at(map->domain, i) != *vecu16_at(map->codomain, i)) {
-      return 0;
-    }
-  }
-  return 1;
+  return vecu16_areEqualVectors(map->domain, map->codomain);
 }
 
 bool mapu16_isValid(Mapu16 *map)
 {
   return map->domain->size == map->codomain->size &&
+         map->indexed == mapu16_isIndexed(map) &&
          !vecu16_hasDuplicates(map->domain);
 }
 
@@ -147,10 +152,10 @@ bool mapu16_isInjective(Mapu16 *map)
 void mapu16_comp_noalloc(Mapu16 *f, Mapu16 *g, Mapu16 *comp, bool setDomain)
 {
   if(setDomain) {
-    vecu16_copyInto(comp->domain, g->domain);
+    vecu16_copyInto(g->domain, comp->domain, 0);
   }
   // "map" g->domain to g->codomain by copying
-  vecu16_copyInto(comp->codomain, g->codomain);
+  vecu16_copyInto(g->codomain, comp->codomain, 0);
   // map g->codomain by applying f
   mapu16_mapEleVec(f, comp->codomain, comp->codomain);
 }

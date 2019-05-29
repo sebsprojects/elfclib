@@ -34,6 +34,7 @@ bool veci32_indexOf(Veci32 *vector, i32 value, u32 offset, u32 *index);
 i32 veci32_max(Veci32 *vector);
 i32 veci32_min(Veci32 *vector);
 
+void veci32_fill(Veci32 *vector, i32 val);
 
 // ---------------------------------------------------------------------------
 // Print

@@ -73,8 +73,8 @@ bool vecu16_indexOf(Vecu16 *vector, u16 value, u32 *index, u32 offset)
 
 bool vecu16_contains(Vecu16 *vector, u16 value, u32 offset)
 {
-  u32 *ind = 0;
-  return vecu16_indexOf(vector, value, ind, offset);
+  u32 ind = -1;
+  return vecu16_indexOf(vector, value, &ind, offset);
 }
 
 void vecu16_fill(Vecu16 *vector, u16 val)
@@ -116,16 +116,27 @@ Vecu16 *vecu16_copy(Vecu16 *vector)
   return copy;
 }
 
-void vecu16_copyInto(Vecu16 *to, Vecu16 *from)
+void vecu16_copyInto(Vecu16 *from, Vecu16 *to, u32 offset)
 {
 #ifdef BOUNDS_CHECK
-  if(to->size < from->size) {
+  if(to->size < from->size + offset) {
     boundsErrorAndExit("vecu16_copyInto", to->size, from->size);
   }
 #endif
   for(i32 i = 0; i < from->size; i++) {
-    *vecu16_at(to, i) = *vecu16_at(from, i);
+    *vecu16_at(to, i + offset) = *vecu16_at(from, i);
   }
+}
+
+u16 *vecu16_copyIntoArray(u16 *array, Vecu16 *vector, u16 num)
+{
+#ifdef BOUNDS_CHECK
+  if(vector->size < num) {
+    boundsErrorAndExit("vecu16_copyIntoArray", vector->size, num);
+  }
+#endif
+  memcpy(array, vector->data, num * sizeof(u16));
+  return array;
 }
 
 void vecu16_sort(Vecu16 *vector, u32 start, u32 end)

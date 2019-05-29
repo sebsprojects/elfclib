@@ -20,11 +20,15 @@ void binom_initDefault(Vecu16 *vec, i32 k);
 /*
  * Fills the vector with 0xffff and sets the range [offset, offset + k)
  * to the standard range with rangeOffset min
+ * For instance
+ * binom_init(vec, 0, 3, 0) -> [ 0 1 2 0xffff 0xffff ... ]
+ * binom_init(vec, 0, 3, 2) -> [ 2 3 4 0xffff 0xffff ... ]
+ * binom_init(vec, 2, 3, 6) -> [ 0xffff 0xffff 6 7 8 0xffff 0xffff ... ]
  */
 void binom_init(Vecu16 *vec, i32 min, i32 k, i32 offset);
 
 /*
- * Equivalent to binom_shift(vec, max, 0, <first entry with 0xffff>)
+ * Equivalent to binom_shift(vec, n, <first entry with 0xffff>, 0)
  * Caution: This needs to determine k every time, i.e. call
  * indexOf(..., 0xffff, ...)
  */

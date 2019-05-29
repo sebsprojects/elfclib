@@ -99,6 +99,12 @@ i32 veci32_min(Veci32 *vector)
   return min;
 }
 
+void veci32_fill(Veci32 *vector, i32 val)
+{
+  for(i32 i = 0; i < vector->size; i++) {
+    *veci32_at(vector, i) = val;
+  }
+}
 
 // --------------------------------------------------------------------------
 // Print
