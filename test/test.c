@@ -3,6 +3,7 @@
 #include "test_hash.c"
 #include "test_perm.c"
 #include "test_math.c"
+#include "test_random.c"
 
 
 int main()
@@ -12,5 +13,6 @@ int main()
   test_hash();
   test_perm();
   test_math();
+  test_random();
   return 0;
 }

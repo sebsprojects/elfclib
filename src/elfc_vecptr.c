@@ -34,3 +34,18 @@ void vecptr_free(Vecptr *vector)
   free(vector->data);
   free(vector);
 }
+
+// ---------------------------------------------------------------------------
+// Operation
+// ---------------------------------------------------------------------------
+
+void vecptr_resize(Vecptr *vector, u32 newSize)
+{
+#ifdef BOUNDS_CHECK
+  if(vector->allocSize < newSize) {
+    boundsErrorAndExit("vecptr_resize", vector->size, newSize);
+  }
+#endif
+  vector->size = newSize;
+}
+
